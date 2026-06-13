@@ -736,74 +736,95 @@
 
     .cost-board {
       display: grid;
-      gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
 
     .cost-row {
-      padding: 18px;
+      padding: 14px 14px 12px;
       border-radius: 18px;
       border: 1px solid var(--line);
-      background: #ffffff;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
       display: grid;
-      gap: 12px;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cost-row::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.22), transparent 60%);
+      pointer-events: none;
     }
 
     .cost-row-top {
       display: flex;
-      flex-wrap: wrap;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    .cost-head {
+      min-width: 0;
+    }
+
+    .cost-headline {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
     }
 
     .cost-row h4 {
       margin: 0;
-      font-size: 1rem;
-      letter-spacing: -0.02em;
+      font-size: 0.98rem;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
     }
 
     .cost-row p {
-      margin: 6px 0 0;
+      margin: 0;
       color: var(--muted);
-      line-height: 1.55;
-      font-size: 0.89rem;
+      line-height: 1.45;
+      font-size: 0.82rem;
     }
 
     .cost-total {
       color: var(--text);
-      font-size: 1.24rem;
+      font-size: 1.12rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       text-align: right;
+      white-space: nowrap;
+      flex: 0 0 auto;
     }
 
-    .cost-meta {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
+    .cost-inline {
+      color: #64748b;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .cost-meta span {
-      display: block;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: var(--surface-soft);
+    .cost-rates {
       color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.5;
-    }
-
-    .cost-meta strong {
-      display: block;
-      color: var(--text);
-      font-size: 0.98rem;
-      margin-top: 4px;
+      font-size: 0.78rem;
+      line-height: 1.35;
+      letter-spacing: 0.01em;
     }
 
     .cost-bar {
-      height: 10px;
+      height: 4px;
       border-radius: 999px;
-      background: #e2e8f0;
+      background: rgba(148, 163, 184, 0.22);
       overflow: hidden;
     }
 
@@ -813,6 +834,48 @@
       background: linear-gradient(90deg, #93c5fd, #2563eb);
       width: 0;
       transition: width 240ms ease;
+    }
+
+    .cost-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 22px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+    }
+
+    .cost-badge.best {
+      background: linear-gradient(135deg, #059669, #10b981);
+      box-shadow:
+        0 0 0 1px rgba(5, 150, 105, 0.14),
+        0 0 14px rgba(16, 185, 129, 0.18);
+      animation: breathe-best 2.2s ease-in-out infinite;
+    }
+
+    .cost-badge.frontier {
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      box-shadow:
+        0 0 0 1px rgba(124, 58, 237, 0.14),
+        0 0 14px rgba(168, 85, 247, 0.16);
+    }
+
+    @keyframes breathe-best {
+      0%, 100% {
+        box-shadow:
+          0 0 0 1px rgba(5, 150, 105, 0.14),
+          0 0 10px rgba(16, 185, 129, 0.12);
+      }
+      50% {
+        box-shadow:
+          0 0 0 1px rgba(5, 150, 105, 0.2),
+          0 0 20px rgba(16, 185, 129, 0.26);
+      }
     }
 
     .cost-note {
@@ -918,7 +981,7 @@
 
       .hero-grid,
       .quick-stat-grid,
-      .cost-meta {
+      .cost-board {
         grid-template-columns: 1fr;
       }
 
@@ -1151,12 +1214,12 @@
             <div class="card-header">
               <div>
                 <h3>Benchmark Spend Matrix</h3>
-                <p>Legacy-friendly labels are mapped to 2026 current benchmark proxies so your planning stays useful even as vendors refresh model lineups.</p>
+                <p>Seven live benchmark cards compare flagship, production, and value-tier model economics in a compact planning dashboard.</p>
               </div>
               <span class="sub-chip">Updated 2026</span>
             </div>
             <div id="costBoard" class="cost-board"></div>
-            <div class="cost-note">Proxy mapping used here: GPT-4o card uses current OpenAI GPT-5.4 standard rates, Claude 3.5 Sonnet card uses current Anthropic Sonnet 4.6 rates, and Gemini 1.5 Pro card uses current Gemini 2.5 Pro standard-text rates.</div>
+            <div class="cost-note">Latest benchmark set in this board uses the currently audited 2026 rate sheet for OpenAI, Anthropic, Google Gemini, and DeepSeek public API pricing. DeepSeek-V4-Pro is shown with its current public API baseline at approximately $0.435/M input and $0.87/M output.</div>
           </article>
 
           <article class="panel-card">
@@ -1256,25 +1319,60 @@
 
       const rateMatrix = [
         {
-          id: "gpt4o",
-          title: "GPT-4o Cost",
-          proxy: "Proxy: current OpenAI GPT-5.4 standard text rates",
+          id: "gpt55",
+          title: "OpenAI GPT-5.5",
+          proxy: "Official flagship line",
+          inputPerMillion: 5,
+          outputPerMillion: 30,
+          frontierScore: 92
+        },
+        {
+          id: "gpt54xhigh",
+          title: "OpenAI gpt-5.4-xhigh",
+          proxy: "Official high-tier production line",
           inputPerMillion: 2.5,
-          outputPerMillion: 15
+          outputPerMillion: 15,
+          frontierScore: 84
         },
         {
-          id: "claude35",
-          title: "Claude 3.5 Sonnet Cost",
-          proxy: "Proxy: current Anthropic Sonnet 4.6 rates",
+          id: "claudefable5",
+          title: "Anthropic Claude-Fable-5",
+          proxy: "Official frontier reasoning line",
+          inputPerMillion: 10,
+          outputPerMillion: 50,
+          frontierScore: 100
+        },
+        {
+          id: "claudesonnet46",
+          title: "Anthropic Claude-Sonnet-4.6",
+          proxy: "Official core workhorse line",
           inputPerMillion: 3,
-          outputPerMillion: 15
+          outputPerMillion: 15,
+          frontierScore: 86
         },
         {
-          id: "gemini15",
-          title: "Gemini 1.5 Pro Cost",
-          proxy: "Proxy: current Gemini 2.5 Pro standard text rates",
-          inputPerMillion: 1.25,
-          outputPerMillion: 10
+          id: "gemini35flash",
+          title: "Google Gemini-3.5-Flash",
+          proxy: "Official ultra-context fast line",
+          inputPerMillion: 1.5,
+          outputPerMillion: 9,
+          frontierScore: 72
+        },
+        {
+          id: "gemini31pro",
+          title: "Google Gemini-3.1-Pro",
+          proxy: "Official engineering core line",
+          inputPerMillion: 2,
+          outputPerMillion: 12,
+          frontierScore: 79
+        },
+        {
+          id: "deepseekv4pro",
+          title: "DeepSeek-V4-Pro",
+          proxy: "Official public API baseline",
+          inputPerMillion: 0.435,
+          outputPerMillion: 0.87,
+          frontierScore: 58
         }
       ];
 
@@ -1488,6 +1586,22 @@
           currency: "USD",
           minimumFractionDigits: 2,
           maximumFractionDigits: value >= 1000 ? 0 : 2
+        }).format(value);
+      }
+
+      function formatRate(value) {
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: value < 1 ? 3 : 1,
+          maximumFractionDigits: value < 1 ? 3 : 1
+        }).format(value);
+      }
+
+      function formatCompactNumber(value) {
+        return new Intl.NumberFormat("en-US", {
+          notation: "compact",
+          maximumFractionDigits: value >= 10000 ? 0 : 1
         }).format(value);
       }
 
@@ -1752,26 +1866,37 @@
       function renderCostBoard(costRows) {
         elements.costBoard.innerHTML = "";
         const maxCost = Math.max(...costRows.map((row) => row.monthlyCost), 0.01);
+        const cheapestModelId = costRows.reduce((lowest, current) => current.monthlyCost < lowest.monthlyCost ? current : lowest, costRows[0]).id;
+        const frontierModelId = costRows.reduce((highest, current) => current.frontierScore > highest.frontierScore ? current : highest, costRows[0]).id;
 
         costRows.forEach((row) => {
           const article = document.createElement("article");
           article.className = "cost-row";
 
           const fillWidth = Math.max(6, Math.round((row.monthlyCost / maxCost) * 100));
+          const badges = [];
+
+          if (row.id === cheapestModelId) {
+            badges.push('<span class="cost-badge best">[ Best Value]</span>');
+          }
+
+          if (row.id === frontierModelId) {
+            badges.push('<span class="cost-badge frontier">[ Frontier Inference]</span>');
+          }
 
           article.innerHTML = `
             <div class="cost-row-top">
-              <div>
-                <h4>${row.title}</h4>
+              <div class="cost-head">
+                <div class="cost-headline">
+                  <h4>${row.title}</h4>
+                  ${badges.join("")}
+                </div>
                 <p>${row.proxy}</p>
               </div>
               <div class="cost-total">${formatCurrency(row.monthlyCost)}</div>
             </div>
-            <div class="cost-meta">
-              <span>Prompt input tokens<strong>${formatNumber(row.inputTokens)}</strong></span>
-              <span>Estimated output tokens<strong>${formatNumber(row.outputTokens)}</strong></span>
-              <span>Calls / month<strong>${formatNumber(row.monthlyCalls)}</strong></span>
-            </div>
+            <div class="cost-inline">Prompt: ${formatCompactNumber(row.inputTokens)} &bull; Output: ${formatCompactNumber(row.outputTokens)} &bull; ${formatCompactNumber(row.monthlyCalls)} calls</div>
+            <div class="cost-rates">In ${formatRate(row.inputPerMillion)}/M &bull; Out ${formatRate(row.outputPerMillion)}/M</div>
             <div class="cost-bar"><div class="cost-bar-fill" style="width:${fillWidth}%"></div></div>
           `;
 
