@@ -1,0 +1,1949 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="XySide Premium Prompt Studio & LLM Template Engine helps developers and writers engineer structured prompts, inject dynamic variables, and simulate token budgets locally in the browser.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://ai.xyside.com/">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7466854383553853" crossorigin="anonymous"></script>
+  <title>XySide Premium Prompt Studio &amp; LLM Template Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --line: #e5e7eb;
+      --text: #0f172a;
+      --muted: #475569;
+      --blue: #2563eb;
+      --blue-deep: #1d4ed8;
+      --blue-soft: rgba(37, 99, 235, 0.09);
+      --blue-soft-strong: rgba(37, 99, 235, 0.16);
+      --green: #059669;
+      --amber: #f59e0b;
+      --shadow: 0 22px 50px rgba(15, 23, 42, 0.08);
+      --radius-xl: 30px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --transition: 180ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 24%),
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 26%),
+        linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.28), transparent 80%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    .app-shell {
+      width: min(1360px, calc(100% - 28px));
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 0;
+      background: rgba(250, 250, 250, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      flex: 0 0 auto;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      box-shadow: 0 18px 36px rgba(37, 99, 235, 0.22);
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-family: "Sora", "Segoe UI", sans-serif;
+      font-size: 1rem;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .nav-link {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--muted);
+      transition: color var(--transition), background var(--transition), transform var(--transition);
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      color: var(--blue);
+      background: var(--blue-soft);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.95fr);
+      gap: 22px;
+      padding: 30px 0 18px;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-visual,
+    .panel-card,
+    .footer {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      color: var(--blue);
+      background: rgba(37, 99, 235, 0.09);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    h1 {
+      margin: 18px 0 14px;
+      font-family: "Sora", "Segoe UI", sans-serif;
+      font-size: clamp(2.7rem, 5vw, 4.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.06em;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 66ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .hero-button,
+    .tab-button,
+    .ghost-button,
+    .copy-button,
+    .mini-button {
+      border: 0;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+    }
+
+    .hero-button,
+    .copy-button.primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 20px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--blue), #3b82f6);
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 14px 32px rgba(37, 99, 235, 0.2);
+    }
+
+    .hero-button:hover,
+    .hero-button:focus-visible,
+    .copy-button.primary:hover,
+    .copy-button.primary:focus-visible {
+      background: linear-gradient(135deg, var(--blue-deep), #2563eb);
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px rgba(29, 78, 216, 0.25);
+      outline: none;
+    }
+
+    .ghost-button,
+    .copy-button.secondary,
+    .copy-button.reset,
+    .mini-button {
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .ghost-button:hover,
+    .ghost-button:focus-visible,
+    .copy-button.secondary:hover,
+    .copy-button.secondary:focus-visible,
+    .copy-button.reset:hover,
+    .copy-button.reset:focus-visible,
+    .mini-button:hover,
+    .mini-button:focus-visible {
+      border-color: rgba(37, 99, 235, 0.28);
+      color: var(--blue);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .hero-stat {
+      padding: 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .hero-stat strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--blue);
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .hero-stat span {
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+
+    .hero-visual {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: auto -22% -18% auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.2), transparent 68%);
+      pointer-events: none;
+    }
+
+    .visual-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .visual-header h2 {
+      margin: 0;
+      font-family: "Sora", "Segoe UI", sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+    }
+
+    .visual-header p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    .status-chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(5, 150, 105, 0.1);
+      color: var(--green);
+      font-size: 0.85rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .signal-board {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal-row {
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(37, 99, 235, 0.14);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
+    }
+
+    .signal-row-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .signal-caption {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .progress-track {
+      height: 10px;
+      width: 100%;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #60a5fa, #2563eb);
+      width: 0;
+      transition: width 220ms ease;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 18px 0 18px;
+    }
+
+    .trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 99, 235, 0.14);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 0 26px rgba(37, 99, 235, 0.08);
+      color: var(--blue);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+
+    .left-column {
+      grid-column: span 5;
+      display: grid;
+      gap: 18px;
+    }
+
+    .right-column {
+      grid-column: span 7;
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel-card {
+      padding: 22px;
+    }
+
+    .card-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .card-header h3 {
+      margin: 0;
+      font-family: "Sora", "Segoe UI", sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card-header p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      max-width: 64ch;
+    }
+
+    .sub-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 99, 235, 0.16);
+      background: rgba(37, 99, 235, 0.06);
+      color: var(--blue);
+      font-size: 0.84rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tab-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .tab-button {
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .tab-button.is-active {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--blue), #3b82f6);
+      border-color: transparent;
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.16);
+    }
+
+    .framework-description {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: var(--surface-soft);
+      border: 1px solid rgba(37, 99, 235, 0.1);
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .field-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field-group label {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .field-group textarea,
+    .field-group input[type="text"],
+    .field-group input[type="number"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 13px 14px;
+      background: #ffffff;
+      color: var(--text);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      resize: vertical;
+      min-height: 54px;
+    }
+
+    .field-group textarea {
+      min-height: 100px;
+      line-height: 1.6;
+    }
+
+    .field-group textarea:focus,
+    .field-group input:focus {
+      outline: none;
+      border-color: rgba(37, 99, 235, 0.38);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    }
+
+    .field-help {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+
+    .variable-box {
+      display: grid;
+      gap: 14px;
+    }
+
+    .variable-pill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .variable-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--blue);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .empty-state {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      color: var(--muted);
+      line-height: 1.65;
+      background: rgba(248, 250, 252, 0.8);
+    }
+
+    .parameter-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .slider-wrap {
+      display: grid;
+      gap: 10px;
+    }
+
+    .slider-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slider-value {
+      min-width: 74px;
+      padding: 8px 12px;
+      text-align: center;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--blue);
+      cursor: pointer;
+    }
+
+    .parameter-note {
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(37, 99, 235, 0.12);
+      background: rgba(37, 99, 235, 0.05);
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .budget-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .quick-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .quick-stat {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .quick-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-bottom: 8px;
+    }
+
+    .quick-stat strong {
+      display: block;
+      font-size: 1.24rem;
+      letter-spacing: -0.03em;
+    }
+
+    .markdown-preview {
+      min-height: 500px;
+      padding: 26px;
+      border-radius: 22px;
+      border: 1px solid rgba(37, 99, 235, 0.12);
+      background: #f8fafc;
+      overflow: auto;
+    }
+
+    .markdown-preview h1,
+    .markdown-preview h2,
+    .markdown-preview h3 {
+      font-family: "Sora", "Segoe UI", sans-serif;
+      letter-spacing: -0.04em;
+      margin-top: 0;
+    }
+
+    .markdown-preview h1 {
+      font-size: 2rem;
+      margin-bottom: 18px;
+    }
+
+    .markdown-preview h2 {
+      font-size: 1.28rem;
+      margin: 26px 0 12px;
+    }
+
+    .markdown-preview h3 {
+      font-size: 1.03rem;
+      margin: 20px 0 10px;
+    }
+
+    .markdown-preview p {
+      margin: 0 0 14px;
+      color: #1e293b;
+      line-height: 1.78;
+    }
+
+    .markdown-preview blockquote {
+      margin: 0 0 16px;
+      padding: 14px 16px;
+      border-left: 4px solid rgba(37, 99, 235, 0.42);
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 0 16px 16px 0;
+      color: #1e293b;
+    }
+
+    .markdown-preview ul {
+      margin: 0 0 16px 0;
+      padding-left: 20px;
+      color: #1e293b;
+    }
+
+    .markdown-preview li {
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+
+    .markdown-preview code {
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.06);
+      font-family: "Cascadia Code", "Consolas", monospace;
+      font-size: 0.92em;
+    }
+
+    .cost-board {
+      display: grid;
+      gap: 14px;
+    }
+
+    .cost-row {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      display: grid;
+      gap: 12px;
+    }
+
+    .cost-row-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cost-row h4 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .cost-row p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.89rem;
+    }
+
+    .cost-total {
+      color: var(--text);
+      font-size: 1.24rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-align: right;
+    }
+
+    .cost-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .cost-meta span {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .cost-meta strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.98rem;
+      margin-top: 4px;
+    }
+
+    .cost-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+
+    .cost-bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #93c5fd, #2563eb);
+      width: 0;
+      transition: width 240ms ease;
+    }
+
+    .cost-note {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .copy-button {
+      min-height: 56px;
+      padding: 15px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+    }
+
+    .copy-feedback {
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-link {
+      padding: 8px 12px;
+      border-radius: 999px;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .footer-link:hover,
+    .footer-link:focus-visible {
+      background: var(--blue-soft);
+      color: var(--blue);
+      outline: none;
+    }
+
+    .hidden-copy {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+    }
+
+    @media (max-width: 1120px) {
+      .hero,
+      .workspace-grid,
+      .quick-stat-grid,
+      .budget-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .left-column,
+      .right-column {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .app-shell {
+        width: min(100% - 18px, 1360px);
+      }
+
+      .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .site-nav {
+        justify-content: flex-start;
+      }
+
+      .hero-copy,
+      .hero-visual,
+      .panel-card,
+      .footer {
+        border-radius: 24px;
+      }
+
+      .hero-copy {
+        padding: 26px;
+      }
+
+      .hero-grid,
+      .quick-stat-grid,
+      .cost-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .markdown-preview {
+        min-height: 420px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="https://xyside.com/" aria-label="Go to XySide home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M5 19L19 5M6.5 7.5H17V18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <strong>XySide Premium Prompt Studio</strong>
+          <span>Enterprise prompt architecture, variable injection, and budget forecasting.</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a class="nav-link" href="https://xyside.com/">Home / Dashboard</a>
+        <a class="nav-link" href="https://xyside.com/privacy.html">Privacy Policy</a>
+        <a class="nav-link" href="https://xyside.com/terms.html">Terms of Service</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <span class="eyebrow">Prompt Systems, Not Prompt Guesswork</span>
+          <h1 id="hero-title">Stop Chatting. Start Engineering.</h1>
+          <p>XySide AI Prompt Studio transforms casual text into bulletproof, structured prompt frameworks (CO-STAR, CRISPE, TRACI). Inject dynamic variables, visualize temperature dynamics, and budget enterprise LLM API costs 100% locally in your browser.</p>
+          <div class="hero-actions">
+            <a class="hero-button" href="#studio">Open the Studio</a>
+            <button class="ghost-button" id="loadDemoButton" type="button">Load Premium Demo Workspace</button>
+          </div>
+          <div class="hero-grid">
+            <article class="hero-stat">
+              <strong>Framework-native</strong>
+              <span>Switch between structured prompting systems without rebuilding your prompt from scratch.</span>
+            </article>
+            <article class="hero-stat">
+              <strong>Dynamic variables</strong>
+              <span>Auto-detect <code>{{tokens}}</code>, render value inputs, and substitute them in real time.</span>
+            </article>
+            <article class="hero-stat">
+              <strong>Budget aware</strong>
+              <span>See prompt metrics and benchmark API spend before a single production call goes out.</span>
+            </article>
+          </div>
+        </div>
+
+        <aside class="hero-visual">
+          <div class="visual-header">
+            <div>
+              <h2>Live studio telemetry</h2>
+              <p>Prompt quality signals update as your workspace evolves, turning every draft into a production-ready artifact.</p>
+            </div>
+            <span class="status-chip">Auto-saved locally</span>
+          </div>
+
+          <div class="signal-board">
+            <div class="signal-row">
+              <div class="signal-row-top">
+                <span>Framework coverage</span>
+                <span id="coverageValue">0%</span>
+              </div>
+              <div class="progress-track"><div id="coverageBar" class="progress-bar"></div></div>
+              <div class="signal-caption">How much of the active prompting framework is currently populated.</div>
+            </div>
+
+            <div class="signal-row">
+              <div class="signal-row-top">
+                <span>Variable readiness</span>
+                <span id="variableValue">0 mapped</span>
+              </div>
+              <div class="progress-track"><div id="variableBar" class="progress-bar"></div></div>
+              <div class="signal-caption">Tracks how many dynamic placeholders are fully assigned before deployment.</div>
+            </div>
+
+            <div class="signal-row">
+              <div class="signal-row-top">
+                <span>Budget floor</span>
+                <span id="budgetFloorValue">$0.00/mo</span>
+              </div>
+              <div class="progress-track"><div id="budgetFloorBar" class="progress-bar"></div></div>
+              <div class="signal-caption">The lowest current monthly model forecast from the benchmark board below.</div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <div class="badge-row" aria-label="Trust badges">
+        <span class="trust-badge">🛠 Dynamic {{Variable}} Injection</span>
+        <span class="trust-badge">📊 Token &amp; API Cost Budgeter</span>
+        <span class="trust-badge">💻 Developer JSON Escape Ready</span>
+      </div>
+
+      <section id="studio" class="workspace-grid" aria-label="Prompt engineering workspace">
+        <div class="left-column">
+          <article class="panel-card">
+            <div class="card-header">
+              <div>
+                <h3>Framework Selector</h3>
+                <p>Switch prompting systems instantly. XySide keeps each framework's values stored locally so you can compare methodologies without losing work.</p>
+              </div>
+              <span class="sub-chip">5 / 7 Grid Studio</span>
+            </div>
+            <div id="frameworkTabs" class="tab-strip" role="tablist" aria-label="Framework selection"></div>
+            <div id="frameworkDescription" class="framework-description"></div>
+            <div id="frameworkFields" class="field-grid"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-header">
+              <div>
+                <h3>Template Factory</h3>
+                <p>Write a custom system prompt, drop in <code>{{variables}}</code>, and let the engine render matching inputs automatically.</p>
+              </div>
+              <span class="sub-chip">Variable-aware</span>
+            </div>
+            <div class="field-group">
+              <label for="customPrompt">Custom System Prompt</label>
+              <textarea id="customPrompt" spellcheck="false"></textarea>
+              <div class="field-help">Dynamic placeholders support letters, numbers, underscores, and hyphens, for example <code>{{project_goal}}</code> or <code>{{launch-stage}}</code>.</div>
+            </div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-header">
+              <div>
+                <h3>Detected Variables</h3>
+                <p>Populate template placeholders and watch the final prompt update with zero latency.</p>
+              </div>
+              <span class="sub-chip" id="variableCountChip">0 active</span>
+            </div>
+            <div class="variable-box">
+              <div id="variablePills" class="variable-pill-grid"></div>
+              <div id="variableInputs"></div>
+            </div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-header">
+              <div>
+                <h3>Hyperparameter Visualizer</h3>
+                <p>Model guidance shifts as you tune determinism and sampling breadth. This keeps prompt authors and engineers aligned before runtime.</p>
+              </div>
+              <span class="sub-chip">Execution envelope</span>
+            </div>
+            <div class="parameter-grid">
+              <div class="slider-wrap">
+                <div class="slider-top">
+                  <label for="temperatureRange">Temperature</label>
+                  <span id="temperatureValue" class="slider-value">0.7</span>
+                </div>
+                <input id="temperatureRange" type="range" min="0" max="1" step="0.01" value="0.7">
+              </div>
+
+              <div class="slider-wrap">
+                <div class="slider-top">
+                  <label for="topPRange">Top-P</label>
+                  <span id="topPValue" class="slider-value">0.9</span>
+                </div>
+                <input id="topPRange" type="range" min="0" max="1" step="0.01" value="0.9">
+              </div>
+
+              <div id="temperatureHint" class="parameter-note"></div>
+              <div id="samplingHint" class="parameter-note"></div>
+            </div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-header">
+              <div>
+                <h3>Cost Budgeter</h3>
+                <p>Estimate prompt-side input spend and blended output spend using current 2026 benchmark proxy pricing from official vendor pages.</p>
+              </div>
+              <span class="sub-chip">Finance mode</span>
+            </div>
+            <div class="budget-grid">
+              <div class="field-group">
+                <label for="monthlyCalls">Estimated Monthly API Calls</label>
+                <input id="monthlyCalls" type="number" min="1" step="1" value="10000">
+                <div class="field-help">This value multiplies the prompt usage forecast for each benchmark model.</div>
+              </div>
+              <div class="field-group">
+                <label for="outputMultiplier">Expected Output / Input Token Ratio</label>
+                <input id="outputMultiplier" type="number" min="0.1" max="8" step="0.1" value="1.2">
+                <div class="field-help">An enhancement for realistic budgeting. A ratio of 1.2 assumes outputs are 120% of prompt length.</div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="right-column">
+          <article class="panel-card">
+            <div class="card-header">
+              <div>
+                <h3>Live Prompt Matrix</h3>
+                <p>Every field, slider, and variable injection is structured into a markdown-ready system prompt with explicit sections and deployment notes.</p>
+              </div>
+              <span class="sub-chip">Real-time markdown</span>
+            </div>
+
+            <div class="quick-stat-grid">
+              <div class="quick-stat">
+                <span>Characters</span>
+                <strong id="characterCount">0</strong>
+              </div>
+              <div class="quick-stat">
+                <span>Words</span>
+                <strong id="wordCount">0</strong>
+              </div>
+              <div class="quick-stat">
+                <span>Estimated Tokens</span>
+                <strong id="tokenCount">0</strong>
+              </div>
+            </div>
+
+            <div id="preview" class="markdown-preview" aria-live="polite"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-header">
+              <div>
+                <h3>Benchmark Spend Matrix</h3>
+                <p>Legacy-friendly labels are mapped to 2026 current benchmark proxies so your planning stays useful even as vendors refresh model lineups.</p>
+              </div>
+              <span class="sub-chip">Updated 2026</span>
+            </div>
+            <div id="costBoard" class="cost-board"></div>
+            <div class="cost-note">Proxy mapping used here: GPT-4o card uses current OpenAI GPT-5.4 standard rates, Claude 3.5 Sonnet card uses current Anthropic Sonnet 4.6 rates, and Gemini 1.5 Pro card uses current Gemini 2.5 Pro standard-text rates.</div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-header">
+              <div>
+                <h3>Copy &amp; Reset Controls</h3>
+                <p>Move fast between chat UIs and backend code without manually escaping quotes or rebuilding formatting.</p>
+              </div>
+              <span class="sub-chip">Deployment actions</span>
+            </div>
+            <div class="action-row">
+              <button id="copyMarkdown" class="copy-button primary" type="button">Copy for ChatGPT (Markdown)</button>
+              <button id="copyJson" class="copy-button secondary" type="button">Copy for API (JSON Escaped String)</button>
+              <button id="resetWorkspace" class="copy-button reset" type="button">Reset Workspace</button>
+            </div>
+            <div id="copyFeedback" class="copy-feedback">Workspace state is persisted locally in your browser so you can close the tab and come back later.</div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>&copy; 2026 XySide. All rights reserved.</div>
+      <div class="footer-links">
+        <a class="footer-link" href="https://xyside.com/">Home / Dashboard</a>
+        <a class="footer-link" href="https://xyside.com/privacy.html">Privacy Policy</a>
+        <a class="footer-link" href="https://xyside.com/terms.html">Terms of Service</a>
+      </div>
+    </footer>
+  </div>
+
+  <textarea id="hiddenCopy" class="hidden-copy" aria-hidden="true"></textarea>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = "xyside-ai-studio-v1";
+      const frameworkDefinitions = {
+        costar: {
+          label: "CO-STAR Framework",
+          description: "CO-STAR is strong when you want a disciplined system prompt that balances context, intent, style, and response shape. It is ideal for product copy, support agents, and repeatable content workflows.",
+          fields: [
+            { id: "context", label: "Context", placeholder: "What environment, constraints, or business backdrop does the model need?" },
+            { id: "objective", label: "Objective", placeholder: "What exact outcome should the model optimize for?" },
+            { id: "style", label: "Style", placeholder: "What writing or reasoning style should it use?" },
+            { id: "tone", label: "Tone", placeholder: "What emotional or brand voice should it maintain?" },
+            { id: "audience", label: "Audience", placeholder: "Who is the final response intended for?" },
+            { id: "response", label: "Response", placeholder: "What output format should the model return?" }
+          ],
+          defaults: {
+            context: "You are supporting a SaaS growth team preparing a launch plan for {{product_name}} in the {{launch_stage}} stage.",
+            objective: "Design a high-conviction prompt strategy that improves {{primary_metric}} while protecting {{risk_constraint}}.",
+            style: "Structured, executive-friendly, and implementation-oriented.",
+            tone: "Confident, analytical, and commercially sharp.",
+            audience: "Independent developers, technical writers, and product marketers.",
+            response: "Return markdown with sections, bullets, and an execution checklist."
+          }
+        },
+        crispe: {
+          label: "CRISPE Framework",
+          description: "CRISPE shines when you need a role-driven, process-heavy prompt with explicit evaluation logic. It is ideal for audits, research synthesis, and decision-support workflows.",
+          fields: [
+            { id: "capacity", label: "Capacity", placeholder: "What capability or authority does the model operate with?" },
+            { id: "role", label: "Role", placeholder: "What specialist role should the model take?" },
+            { id: "insight", label: "Insight", placeholder: "What context or hidden constraints matter most?" },
+            { id: "statement", label: "Statement", placeholder: "What must the model achieve?" },
+            { id: "process", label: "Process", placeholder: "What step-by-step path should the model follow?" },
+            { id: "estimation", label: "Estimation", placeholder: "How should output quality be judged?" }
+          ],
+          defaults: {
+            capacity: "Operate as a senior prompt systems architect with direct responsibility for LLM reliability.",
+            role: "Translate messy human requests into production-safe prompt artifacts and reusable templates.",
+            insight: "The team ships quickly, but must avoid hallucinations, overlong outputs, and weak variable hygiene for {{client_segment}}.",
+            statement: "Produce a reusable prompt template that aligns to {{success_definition}} and anticipates failure cases.",
+            process: "Break the work into diagnosis, prompt architecture, risk reduction, and final output recommendations.",
+            estimation: "Judge success by clarity, adaptability, token efficiency, and resilience to ambiguous user input."
+          }
+        },
+        traci: {
+          label: "TRACI Framework",
+          description: "TRACI is leaner and more operational. It works well for internal tools, copilots, and execution prompts where task clarity and constraints matter more than brand voice.",
+          fields: [
+            { id: "task", label: "Task", placeholder: "What precise work should the model perform?" },
+            { id: "role", label: "Role", placeholder: "What role or persona should the model adopt?" },
+            { id: "audience", label: "Audience", placeholder: "Who will read or use the result?" },
+            { id: "constraints", label: "Constraints", placeholder: "What constraints must never be violated?" },
+            { id: "instructions", label: "Instructions", placeholder: "What detailed guidance should shape the response?" }
+          ],
+          defaults: {
+            task: "Create a launch-ready AI workflow blueprint for {{product_name}} focused on {{primary_metric}}.",
+            role: "Act as a pragmatic technical cofounder who understands product, growth, and developer ergonomics.",
+            audience: "The primary audience is {{client_segment}} who need immediate tactical guidance.",
+            constraints: "Avoid vague advice, unsupported claims, and solutions that require hidden budget or headcount.",
+            instructions: "Use headings, action items, risk warnings, and one concise summary at the end."
+          }
+        }
+      };
+
+      const rateMatrix = [
+        {
+          id: "gpt4o",
+          title: "GPT-4o Cost",
+          proxy: "Proxy: current OpenAI GPT-5.4 standard text rates",
+          inputPerMillion: 2.5,
+          outputPerMillion: 15
+        },
+        {
+          id: "claude35",
+          title: "Claude 3.5 Sonnet Cost",
+          proxy: "Proxy: current Anthropic Sonnet 4.6 rates",
+          inputPerMillion: 3,
+          outputPerMillion: 15
+        },
+        {
+          id: "gemini15",
+          title: "Gemini 1.5 Pro Cost",
+          proxy: "Proxy: current Gemini 2.5 Pro standard text rates",
+          inputPerMillion: 1.25,
+          outputPerMillion: 10
+        }
+      ];
+
+      const defaultCustomPrompt = "You are preparing a premium AI operating plan for {{product_name}}. The main business goal is {{primary_metric}}. Respect {{risk_constraint}}. Tailor the final artifact for {{client_segment}} and make the launch sequence actionable within {{launch_stage}} constraints.";
+
+      const defaultState = {
+        framework: "costar",
+        frameworkValues: Object.fromEntries(
+          Object.entries(frameworkDefinitions).map(([key, value]) => [key, { ...value.defaults }])
+        ),
+        customPrompt: defaultCustomPrompt,
+        variables: {
+          product_name: "XySide Launch Copilot",
+          primary_metric: "paid conversion rate",
+          risk_constraint: "brand trust and compliance",
+          client_segment: "solo SaaS founders",
+          launch_stage: "pre-launch"
+        },
+        temperature: 0.7,
+        topP: 0.9,
+        monthlyCalls: 10000,
+        outputMultiplier: 1.2
+      };
+
+      const elements = {
+        frameworkTabs: document.getElementById("frameworkTabs"),
+        frameworkDescription: document.getElementById("frameworkDescription"),
+        frameworkFields: document.getElementById("frameworkFields"),
+        customPrompt: document.getElementById("customPrompt"),
+        variablePills: document.getElementById("variablePills"),
+        variableInputs: document.getElementById("variableInputs"),
+        variableCountChip: document.getElementById("variableCountChip"),
+        temperatureRange: document.getElementById("temperatureRange"),
+        topPRange: document.getElementById("topPRange"),
+        temperatureValue: document.getElementById("temperatureValue"),
+        topPValue: document.getElementById("topPValue"),
+        temperatureHint: document.getElementById("temperatureHint"),
+        samplingHint: document.getElementById("samplingHint"),
+        monthlyCalls: document.getElementById("monthlyCalls"),
+        outputMultiplier: document.getElementById("outputMultiplier"),
+        preview: document.getElementById("preview"),
+        characterCount: document.getElementById("characterCount"),
+        wordCount: document.getElementById("wordCount"),
+        tokenCount: document.getElementById("tokenCount"),
+        costBoard: document.getElementById("costBoard"),
+        copyMarkdown: document.getElementById("copyMarkdown"),
+        copyJson: document.getElementById("copyJson"),
+        resetWorkspace: document.getElementById("resetWorkspace"),
+        copyFeedback: document.getElementById("copyFeedback"),
+        hiddenCopy: document.getElementById("hiddenCopy"),
+        loadDemoButton: document.getElementById("loadDemoButton"),
+        coverageValue: document.getElementById("coverageValue"),
+        coverageBar: document.getElementById("coverageBar"),
+        variableValue: document.getElementById("variableValue"),
+        variableBar: document.getElementById("variableBar"),
+        budgetFloorValue: document.getElementById("budgetFloorValue"),
+        budgetFloorBar: document.getElementById("budgetFloorBar")
+      };
+
+      const runtime = {
+        finalMarkdown: "",
+        variableOrder: [],
+        saveTimer: null
+      };
+
+      let state = loadState();
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            return structuredClone(defaultState);
+          }
+
+          const parsed = JSON.parse(raw);
+          return {
+            framework: frameworkDefinitions[parsed.framework] ? parsed.framework : defaultState.framework,
+            frameworkValues: mergeFrameworkValues(parsed.frameworkValues),
+            customPrompt: typeof parsed.customPrompt === "string" ? parsed.customPrompt : defaultState.customPrompt,
+            variables: parsed.variables && typeof parsed.variables === "object" ? parsed.variables : { ...defaultState.variables },
+            temperature: clampNumber(parsed.temperature, 0, 1, defaultState.temperature),
+            topP: clampNumber(parsed.topP, 0, 1, defaultState.topP),
+            monthlyCalls: clampInteger(parsed.monthlyCalls, 1, 1000000000, defaultState.monthlyCalls),
+            outputMultiplier: clampNumber(parsed.outputMultiplier, 0.1, 8, defaultState.outputMultiplier)
+          };
+        } catch (error) {
+          console.error(error);
+          return structuredClone(defaultState);
+        }
+      }
+
+      function mergeFrameworkValues(rawValues) {
+        const merged = {};
+        Object.entries(frameworkDefinitions).forEach(([frameworkKey, frameworkValue]) => {
+          merged[frameworkKey] = { ...frameworkValue.defaults };
+          if (rawValues && rawValues[frameworkKey] && typeof rawValues[frameworkKey] === "object") {
+            frameworkValue.fields.forEach((field) => {
+              if (typeof rawValues[frameworkKey][field.id] === "string") {
+                merged[frameworkKey][field.id] = rawValues[frameworkKey][field.id];
+              }
+            });
+          }
+        });
+        return merged;
+      }
+
+      function structuredClone(value) {
+        return JSON.parse(JSON.stringify(value));
+      }
+
+      function clampNumber(value, min, max, fallback) {
+        const number = Number(value);
+        if (!Number.isFinite(number)) {
+          return fallback;
+        }
+        return Math.min(max, Math.max(min, number));
+      }
+
+      function clampInteger(value, min, max, fallback) {
+        const number = Math.round(Number(value));
+        if (!Number.isFinite(number)) {
+          return fallback;
+        }
+        return Math.min(max, Math.max(min, number));
+      }
+
+      function saveStateSoon() {
+        clearTimeout(runtime.saveTimer);
+        runtime.saveTimer = window.setTimeout(() => {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }, 180);
+      }
+
+      function escapeHtml(value) {
+        return value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function applyInlineFormatting(text) {
+        let html = escapeHtml(text);
+        html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+        html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+        return html;
+      }
+
+      function markdownToHtml(markdown) {
+        const lines = markdown.split("\n");
+        const htmlParts = [];
+        let listBuffer = [];
+
+        function flushList() {
+          if (!listBuffer.length) {
+            return;
+          }
+          htmlParts.push(`<ul>${listBuffer.join("")}</ul>`);
+          listBuffer = [];
+        }
+
+        lines.forEach((line) => {
+          const trimmed = line.trim();
+          if (!trimmed) {
+            flushList();
+            return;
+          }
+
+          if (trimmed.startsWith("- ")) {
+            listBuffer.push(`<li>${applyInlineFormatting(trimmed.slice(2))}</li>`);
+            return;
+          }
+
+          flushList();
+
+          if (trimmed.startsWith("### ")) {
+            htmlParts.push(`<h3>${applyInlineFormatting(trimmed.slice(4))}</h3>`);
+            return;
+          }
+
+          if (trimmed.startsWith("## ")) {
+            htmlParts.push(`<h2>${applyInlineFormatting(trimmed.slice(3))}</h2>`);
+            return;
+          }
+
+          if (trimmed.startsWith("# ")) {
+            htmlParts.push(`<h1>${applyInlineFormatting(trimmed.slice(2))}</h1>`);
+            return;
+          }
+
+          if (trimmed.startsWith("> ")) {
+            htmlParts.push(`<blockquote>${applyInlineFormatting(trimmed.slice(2))}</blockquote>`);
+            return;
+          }
+
+          htmlParts.push(`<p>${applyInlineFormatting(trimmed)}</p>`);
+        });
+
+        flushList();
+        return htmlParts.join("");
+      }
+
+      function formatNumber(value) {
+        return new Intl.NumberFormat("en-US").format(value);
+      }
+
+      function formatCurrency(value) {
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: value >= 1000 ? 0 : 2
+        }).format(value);
+      }
+
+      function getTemperatureHint(value) {
+        if (value <= 0.2) {
+          return "💡 Focus Mode: Highly deterministic, perfect for code, policies, and logic-heavy analysis.";
+        }
+        if (value <= 0.45) {
+          return "🧭 Precision Mode: Controlled reasoning with a little flexibility for nuanced explanations.";
+        }
+        if (value <= 0.75) {
+          return "⚖ Balanced Mode: Useful for product work, applied research, and polished business writing.";
+        }
+        return "🎨 Creative Mode: Highly imaginative, ideal for brainstorming, concept generation, and divergent thinking.";
+      }
+
+      function getTopPHint(value) {
+        if (value <= 0.3) {
+          return "Top-P is narrow. The model samples from a tight probability band, reducing stylistic drift.";
+        }
+        if (value <= 0.7) {
+          return "Top-P is moderately selective. You get controlled variation without opening the floodgates.";
+        }
+        return "Top-P is broad. The model can explore more lexical and structural possibilities per response.";
+      }
+
+      function detectVariables() {
+        const combinedText = [
+          state.customPrompt,
+          ...frameworkDefinitions[state.framework].fields.map((field) => state.frameworkValues[state.framework][field.id] || "")
+        ].join("\n");
+        const matches = [...combinedText.matchAll(/{{\s*([a-zA-Z][a-zA-Z0-9_-]*)\s*}}/g)];
+        const ordered = [];
+        const seen = new Set();
+
+        matches.forEach((match) => {
+          const name = match[1];
+          if (!seen.has(name)) {
+            ordered.push(name);
+            seen.add(name);
+          }
+        });
+
+        runtime.variableOrder = ordered;
+        const nextVariables = {};
+        ordered.forEach((name) => {
+          nextVariables[name] = typeof state.variables[name] === "string" ? state.variables[name] : "";
+        });
+        state.variables = nextVariables;
+      }
+
+      function renderFrameworkTabs() {
+        elements.frameworkTabs.innerHTML = "";
+
+        Object.entries(frameworkDefinitions).forEach(([key, value]) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = `tab-button${state.framework === key ? " is-active" : ""}`;
+          button.textContent = value.label;
+          button.setAttribute("role", "tab");
+          button.setAttribute("aria-selected", String(state.framework === key));
+          button.addEventListener("click", () => {
+            state.framework = key;
+            detectVariables();
+            renderAll();
+          });
+          elements.frameworkTabs.appendChild(button);
+        });
+      }
+
+      function renderFrameworkFields() {
+        const currentFramework = frameworkDefinitions[state.framework];
+        elements.frameworkDescription.textContent = currentFramework.description;
+        elements.frameworkFields.innerHTML = "";
+
+        currentFramework.fields.forEach((field) => {
+          const group = document.createElement("div");
+          group.className = "field-group";
+
+          const label = document.createElement("label");
+          label.textContent = field.label;
+          label.setAttribute("for", `${state.framework}-${field.id}`);
+
+          const textarea = document.createElement("textarea");
+          textarea.id = `${state.framework}-${field.id}`;
+          textarea.placeholder = field.placeholder;
+          textarea.value = state.frameworkValues[state.framework][field.id] || "";
+          textarea.spellcheck = false;
+          textarea.addEventListener("input", () => {
+            state.frameworkValues[state.framework][field.id] = textarea.value;
+            detectVariables();
+            renderAll({ skipFields: true });
+          });
+
+          group.append(label, textarea);
+          elements.frameworkFields.appendChild(group);
+        });
+      }
+
+      function renderVariableInputs() {
+        elements.variablePills.innerHTML = "";
+        elements.variableInputs.innerHTML = "";
+        elements.variableCountChip.textContent = `${runtime.variableOrder.length} active`;
+
+        if (!runtime.variableOrder.length) {
+          elements.variablePills.innerHTML = "";
+          const empty = document.createElement("div");
+          empty.className = "empty-state";
+          empty.textContent = "No variables detected yet. Add tokens like {{user_name}} or {{project_goal}} anywhere in the active framework or custom prompt to auto-generate inputs here.";
+          elements.variableInputs.appendChild(empty);
+          return;
+        }
+
+        runtime.variableOrder.forEach((name) => {
+          const pill = document.createElement("span");
+          pill.className = "variable-pill";
+          pill.textContent = `{{${name}}}`;
+          elements.variablePills.appendChild(pill);
+
+          const group = document.createElement("div");
+          group.className = "field-group";
+
+          const label = document.createElement("label");
+          label.textContent = name;
+          label.setAttribute("for", `variable-${name}`);
+
+          const input = document.createElement("input");
+          input.type = "text";
+          input.id = `variable-${name}`;
+          input.value = state.variables[name] || "";
+          input.placeholder = `Enter a value for ${name}`;
+          input.addEventListener("input", () => {
+            state.variables[name] = input.value;
+            renderAll({ skipFields: true, skipVariables: true });
+          });
+
+          group.append(label, input);
+          elements.variableInputs.appendChild(group);
+        });
+      }
+
+      function injectVariables(text) {
+        let output = text;
+        runtime.variableOrder.forEach((name) => {
+          const value = state.variables[name] && state.variables[name].trim() ? state.variables[name].trim() : `[${name}]`;
+          const expression = new RegExp(`{{\\s*${name.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}\\s*}}`, "g");
+          output = output.replace(expression, value);
+        });
+        return output;
+      }
+
+      function buildMarkdown() {
+        const currentFramework = frameworkDefinitions[state.framework];
+        const fieldLines = currentFramework.fields
+          .map((field) => {
+            const rawValue = state.frameworkValues[state.framework][field.id] || "";
+            return rawValue.trim() ? { label: field.label, value: injectVariables(rawValue.trim()) } : null;
+          })
+          .filter(Boolean);
+
+        const variableLines = runtime.variableOrder.map((name) => {
+          const value = state.variables[name] && state.variables[name].trim() ? state.variables[name].trim() : "[unassigned]";
+          return `- \`${name}\`: ${value}`;
+        });
+
+        const customPrompt = injectVariables(state.customPrompt.trim() || "");
+        const monthlyCalls = clampInteger(state.monthlyCalls, 1, 1000000000, defaultState.monthlyCalls);
+
+        const sections = [
+          "# XySide Prompt Matrix",
+          `> **Framework:** ${currentFramework.label}`,
+          `> **Temperature:** ${state.temperature.toFixed(2)} | **Top-P:** ${state.topP.toFixed(2)} | **Monthly Calls:** ${formatNumber(monthlyCalls)}`,
+          "",
+          "## Core Prompt Architecture"
+        ];
+
+        if (fieldLines.length) {
+          fieldLines.forEach((entry) => {
+            sections.push(`### ${entry.label}`);
+            sections.push(entry.value);
+            sections.push("");
+          });
+        } else {
+          sections.push("No framework fields are populated yet.");
+          sections.push("");
+        }
+
+        sections.push("## Custom System Prompt");
+        sections.push(customPrompt || "No custom prompt content has been provided yet.");
+        sections.push("");
+
+        sections.push("## Runtime Variable Ledger");
+        if (variableLines.length) {
+          sections.push(...variableLines);
+        } else {
+          sections.push("- No dynamic variables detected.");
+        }
+        sections.push("");
+
+        sections.push("## Sampling Instructions");
+        sections.push(`- Use a temperature of **${state.temperature.toFixed(2)}**.`);
+        sections.push(`- Use a top-p value of **${state.topP.toFixed(2)}**.`);
+        sections.push(`- Optimize for the current workflow objective without exceeding the implied token budget.`);
+        sections.push("");
+
+        sections.push("## Delivery Rules");
+        sections.push("- Return a response that is structured, concise, and easy to operationalize.");
+        sections.push("- Highlight assumptions, risks, and next actions when ambiguity exists.");
+        sections.push("- Preserve variable intent and do not silently remove unresolved placeholders.");
+
+        return sections.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+      }
+
+      function getCounts(markdown) {
+        const characters = markdown.length;
+        const words = markdown.trim() ? markdown.trim().split(/\s+/).length : 0;
+        const estimatedTokens = Math.round(words * 1.35);
+        return { characters, words, estimatedTokens };
+      }
+
+      function calculateCoverage() {
+        const currentFramework = frameworkDefinitions[state.framework];
+        const total = currentFramework.fields.length;
+        const filled = currentFramework.fields.filter((field) => (state.frameworkValues[state.framework][field.id] || "").trim()).length;
+        return total ? Math.round((filled / total) * 100) : 0;
+      }
+
+      function calculateVariableReadiness() {
+        if (!runtime.variableOrder.length) {
+          return { mapped: 0, total: 0, percent: 0 };
+        }
+        const mapped = runtime.variableOrder.filter((name) => (state.variables[name] || "").trim()).length;
+        return {
+          mapped,
+          total: runtime.variableOrder.length,
+          percent: Math.round((mapped / runtime.variableOrder.length) * 100)
+        };
+      }
+
+      function buildCostRows(tokenCount) {
+        const monthlyCalls = clampInteger(state.monthlyCalls, 1, 1000000000, defaultState.monthlyCalls);
+        const outputMultiplier = clampNumber(state.outputMultiplier, 0.1, 8, defaultState.outputMultiplier);
+        const inputTokens = tokenCount;
+        const outputTokens = Math.round(tokenCount * outputMultiplier);
+
+        return rateMatrix.map((model) => {
+          const perCallInputCost = (inputTokens / 1000000) * model.inputPerMillion;
+          const perCallOutputCost = (outputTokens / 1000000) * model.outputPerMillion;
+          const monthlyCost = (perCallInputCost + perCallOutputCost) * monthlyCalls;
+          return {
+            ...model,
+            inputTokens,
+            outputTokens,
+            monthlyCalls,
+            monthlyCost,
+            perCallInputCost,
+            perCallOutputCost
+          };
+        });
+      }
+
+      function renderCostBoard(costRows) {
+        elements.costBoard.innerHTML = "";
+        const maxCost = Math.max(...costRows.map((row) => row.monthlyCost), 0.01);
+
+        costRows.forEach((row) => {
+          const article = document.createElement("article");
+          article.className = "cost-row";
+
+          const fillWidth = Math.max(6, Math.round((row.monthlyCost / maxCost) * 100));
+
+          article.innerHTML = `
+            <div class="cost-row-top">
+              <div>
+                <h4>${row.title}</h4>
+                <p>${row.proxy}</p>
+              </div>
+              <div class="cost-total">${formatCurrency(row.monthlyCost)}</div>
+            </div>
+            <div class="cost-meta">
+              <span>Prompt input tokens<strong>${formatNumber(row.inputTokens)}</strong></span>
+              <span>Estimated output tokens<strong>${formatNumber(row.outputTokens)}</strong></span>
+              <span>Calls / month<strong>${formatNumber(row.monthlyCalls)}</strong></span>
+            </div>
+            <div class="cost-bar"><div class="cost-bar-fill" style="width:${fillWidth}%"></div></div>
+          `;
+
+          elements.costBoard.appendChild(article);
+        });
+      }
+
+      function updateTelemetry(costRows) {
+        const coverage = calculateCoverage();
+        const readiness = calculateVariableReadiness();
+        const cheapest = costRows.reduce((lowest, current) => current.monthlyCost < lowest.monthlyCost ? current : lowest, costRows[0]);
+        const barBase = Math.max(...costRows.map((row) => row.monthlyCost), 1);
+        const floorPercent = Math.max(10, Math.round((cheapest.monthlyCost / barBase) * 100));
+
+        elements.coverageValue.textContent = `${coverage}%`;
+        elements.coverageBar.style.width = `${coverage}%`;
+
+        elements.variableValue.textContent = readiness.total ? `${readiness.mapped}/${readiness.total} mapped` : "0 mapped";
+        elements.variableBar.style.width = `${readiness.percent}%`;
+
+        elements.budgetFloorValue.textContent = `${formatCurrency(cheapest.monthlyCost)}/mo`;
+        elements.budgetFloorBar.style.width = `${floorPercent}%`;
+      }
+
+      function updateFeedback(message, tone = "neutral") {
+        elements.copyFeedback.textContent = message;
+        elements.copyFeedback.style.color = tone === "success" ? "var(--green)" : tone === "warn" ? "var(--amber)" : "var(--muted)";
+      }
+
+      async function writeClipboard(text, html) {
+        if (navigator.clipboard && window.ClipboardItem && window.isSecureContext && html) {
+          const item = new ClipboardItem({
+            "text/plain": new Blob([text], { type: "text/plain" }),
+            "text/html": new Blob([html], { type: "text/html" })
+          });
+          await navigator.clipboard.write([item]);
+          return;
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        elements.hiddenCopy.value = text;
+        elements.hiddenCopy.focus();
+        elements.hiddenCopy.select();
+        document.execCommand("copy");
+      }
+
+      async function copyMarkdown() {
+        try {
+          const html = `<article>${markdownToHtml(runtime.finalMarkdown)}</article>`;
+          await writeClipboard(runtime.finalMarkdown, html);
+          updateFeedback("Markdown copied. Rich text is included when the browser clipboard API supports HTML.", "success");
+        } catch (error) {
+          console.error(error);
+          updateFeedback("Clipboard access failed in this context. Try the deployed HTTPS version for direct clipboard support.", "warn");
+        }
+      }
+
+      async function copyJsonEscaped() {
+        try {
+          const payload = JSON.stringify(runtime.finalMarkdown);
+          await writeClipboard(payload);
+          updateFeedback("JSON-escaped prompt copied for backend or config-file usage.", "success");
+        } catch (error) {
+          console.error(error);
+          updateFeedback("Clipboard access failed in this context. Try the deployed HTTPS version for direct clipboard support.", "warn");
+        }
+      }
+
+      function resetWorkspace() {
+        state = structuredClone(defaultState);
+        detectVariables();
+        localStorage.removeItem(STORAGE_KEY);
+        renderAll();
+        updateFeedback("Workspace reset to the premium starter state.", "neutral");
+      }
+
+      function loadDemoWorkspace() {
+        state = structuredClone(defaultState);
+        state.framework = "crispe";
+        state.monthlyCalls = 24000;
+        state.outputMultiplier = 1.6;
+        state.temperature = 0.58;
+        state.topP = 0.82;
+        state.customPrompt = "Design a deployment-grade prompt system for {{product_name}} that helps {{client_segment}} increase {{primary_metric}} without compromising {{risk_constraint}}. The rollout must stay realistic for a {{launch_stage}} roadmap and include failure-mode handling.";
+        state.variables.product_name = "XySide Prompt OS";
+        state.variables.client_segment = "AI-first SaaS teams";
+        state.variables.primary_metric = "qualified pipeline growth";
+        state.variables.risk_constraint = "legal review, hallucination risk, and brand drift";
+        state.variables.launch_stage = "Series A";
+        detectVariables();
+        renderAll();
+        updateFeedback("Premium demo workspace loaded. Adjust framework fields and variables to make it your own.", "success");
+      }
+
+      function renderAll(options = {}) {
+        if (!options.skipFields) {
+          renderFrameworkTabs();
+          renderFrameworkFields();
+        }
+
+        elements.customPrompt.value = state.customPrompt;
+        elements.temperatureRange.value = state.temperature.toFixed(2);
+        elements.topPRange.value = state.topP.toFixed(2);
+        elements.temperatureValue.textContent = state.temperature.toFixed(2);
+        elements.topPValue.textContent = state.topP.toFixed(2);
+        elements.temperatureHint.textContent = getTemperatureHint(state.temperature);
+        elements.samplingHint.textContent = getTopPHint(state.topP);
+        elements.monthlyCalls.value = String(state.monthlyCalls);
+        elements.outputMultiplier.value = Number(state.outputMultiplier).toFixed(1);
+
+        if (!options.skipVariables) {
+          renderVariableInputs();
+        }
+
+        runtime.finalMarkdown = buildMarkdown();
+        elements.preview.innerHTML = markdownToHtml(runtime.finalMarkdown);
+
+        const counts = getCounts(runtime.finalMarkdown);
+        elements.characterCount.textContent = formatNumber(counts.characters);
+        elements.wordCount.textContent = formatNumber(counts.words);
+        elements.tokenCount.textContent = formatNumber(counts.estimatedTokens);
+
+        const costRows = buildCostRows(counts.estimatedTokens);
+        renderCostBoard(costRows);
+        updateTelemetry(costRows);
+        saveStateSoon();
+      }
+
+      elements.customPrompt.addEventListener("input", () => {
+        state.customPrompt = elements.customPrompt.value;
+        detectVariables();
+        renderAll({ skipFields: true });
+      });
+
+      elements.temperatureRange.addEventListener("input", () => {
+        state.temperature = clampNumber(elements.temperatureRange.value, 0, 1, defaultState.temperature);
+        renderAll({ skipFields: true, skipVariables: true });
+      });
+
+      elements.topPRange.addEventListener("input", () => {
+        state.topP = clampNumber(elements.topPRange.value, 0, 1, defaultState.topP);
+        renderAll({ skipFields: true, skipVariables: true });
+      });
+
+      elements.monthlyCalls.addEventListener("input", () => {
+        state.monthlyCalls = clampInteger(elements.monthlyCalls.value, 1, 1000000000, defaultState.monthlyCalls);
+        renderAll({ skipFields: true, skipVariables: true });
+      });
+
+      elements.outputMultiplier.addEventListener("input", () => {
+        state.outputMultiplier = clampNumber(elements.outputMultiplier.value, 0.1, 8, defaultState.outputMultiplier);
+        renderAll({ skipFields: true, skipVariables: true });
+      });
+
+      elements.copyMarkdown.addEventListener("click", () => {
+        void copyMarkdown();
+      });
+
+      elements.copyJson.addEventListener("click", () => {
+        void copyJsonEscaped();
+      });
+
+      elements.resetWorkspace.addEventListener("click", resetWorkspace);
+      elements.loadDemoButton.addEventListener("click", loadDemoWorkspace);
+
+      detectVariables();
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
